@@ -5,6 +5,7 @@ import com.example.carBuy_service.entity.CarBuy;
 import com.example.carBuy_service.services.CarBuyServices;
 import com.example.carBuy_service.services.CarServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,12 @@ public class CarBuyController {
     private final CarBuyServices service;
 
     @GetMapping
-    public ResponseEntity<List<CarBuy>> showAllOrders(){
-        return ResponseEntity.ok(service.showAllOrders());
+    public ResponseEntity<Page<CarBuy>>
+    showAllOrders(@RequestParam int pageNo,
+                  @RequestParam int pageSize,
+                  @RequestParam String sortBy,
+                  @RequestParam String sortDir){
+        return ResponseEntity.ok(service.showAllOrders(pageNo,pageSize,sortBy,sortDir));
     }
     @GetMapping("/{id}")
     public ResponseEntity<CarBuy> getOrderById(@PathVariable Long id){

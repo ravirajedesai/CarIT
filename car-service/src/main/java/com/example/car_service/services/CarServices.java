@@ -10,5 +10,6 @@ public interface CarServices {
     Car showById(Long id);
     void deleteCarById(Long id);
     Car addCar(Car car);
+
     CarResponse getCarByCarName(String carName);
 }

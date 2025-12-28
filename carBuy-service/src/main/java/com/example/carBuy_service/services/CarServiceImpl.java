@@ -8,9 +8,11 @@ import com.example.carBuy_service.fein.CarClient;
 import com.example.carBuy_service.repository.CarBuyRepo;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +22,15 @@ public class CarServiceImpl implements CarBuyServices{
     private final CarClient carClient;
 
     @Override
-    public List<CarBuy> showAllOrders() {
-        return repo.findAll();
+    public Page<CarBuy> showAllOrders(int pageNo,
+                                      int pageSize,
+                                      String sortBy,
+                                      String sortDir) {
+        Sort sort=sortDir.equalsIgnoreCase("ASC")
+                ?Sort.by(sortBy).ascending()
+                :Sort.by(sortBy).descending();
+        Pageable pageable= PageRequest.of(pageNo-1,pageSize,sort);
+        return repo.findAll(pageable);
     }
     @Override
     public CarBuy showCarByOrderId(Long id) {

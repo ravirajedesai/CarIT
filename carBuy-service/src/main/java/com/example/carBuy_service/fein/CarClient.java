@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "car-service")
 public interface CarClient {
+
     @GetMapping("/cars/name/{carName}")
     CarResponse showCarByName(@PathVariable String carName);
 
